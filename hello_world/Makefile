@@ -2,6 +2,7 @@ CUDA_PATH=/usr/local/cuda
 HOST_COMPILER ?= g++
 NVCC=${CUDA_PATH}/bin/nvcc -ccbin ${HOST_COMPILER}
 TARGET=hello_world vector_addition
+BUILD_TYPE=Debug
 
 INCLUDES = -I${CUDA_PATH}/samples/common/inc
 NVCC_FLAGS=-m64 -lineinfo #--resource-usage
@@ -21,10 +22,10 @@ ALL_CCFLAGS += -std=c++11 -Xcompiler -fopenmp -rdc=true $(NVCC_FLAGS) $(INCLUDES
 all : ${TARGET}
 	
 hello_world: hello_world.cu
-	$(EXEC) $(NVCC) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ $+ $(LIBRARIES)
+	$(EXEC) $(NVCC) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@.out  $+ $(LIBRARIES)
 
 vector_addition: vector_addition.cu
-	${NVCC} ${INCLUDES} ${ALL_CCFLAGS} ${GENCODE_FLAGS} -o $@ $<
+	${NVCC} ${INCLUDES} ${ALL_CCFLAGS} ${GENCODE_FLAGS} -o $@.out  $<
 
 clean:
-	rm -rf bin/${TARGET} *.o
+	rm -f *.out *.sqlite *.nsys-rep

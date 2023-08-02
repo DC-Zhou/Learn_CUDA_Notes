@@ -1,10 +1,3 @@
-# Use NSYS
-
-'''
-make all
-nsys profile --stats=true ./sgemm
-'''
-
 # CUDA Beginner guide
 
 ## About CUDA programming

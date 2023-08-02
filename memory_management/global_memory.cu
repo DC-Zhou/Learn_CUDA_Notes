@@ -1,3 +1,4 @@
+// global_memory for add_vector
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -37,27 +38,27 @@ int main(void) {
 	b = (int *)malloc(size); fill_array(b);
 	c = (int *)malloc(size);
 
-        // Alloc space for device copies of a, b, c
-        cudaMalloc((void **)&d_a, size);
-        cudaMalloc((void **)&d_b, size);
-        cudaMalloc((void **)&d_c, size);
+    // Alloc space for device copies of a, b, c
+    cudaMalloc((void **)&d_a, size);
+    cudaMalloc((void **)&d_b, size);
+    cudaMalloc((void **)&d_c, size);
 
-        // Copy inputs to device
-        cudaMemcpy(d_a, a, size, cudaMemcpyHostToDevice);
-        cudaMemcpy(d_b, b, size, cudaMemcpyHostToDevice);
+    // Copy inputs to device
+    cudaMemcpy(d_a, a, size, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_b, b, size, cudaMemcpyHostToDevice);
 
-        threads_per_block = 4;
-        no_of_blocks = N/threads_per_block;	
-        device_add<<<no_of_blocks,threads_per_block>>>(d_a,d_b,d_c);
+    threads_per_block = 4;
+    no_of_blocks = N/threads_per_block;	
+    device_add<<<no_of_blocks,threads_per_block>>>(d_a,d_b,d_c);
 
-        // Copy result back to host
-        cudaMemcpy(c, d_c, size, cudaMemcpyDeviceToHost);
+    // Copy result back to host
+    cudaMemcpy(c, d_c, size, cudaMemcpyDeviceToHost);
 
-        print_output(a,b,c);
+    print_output(a,b,c);
 
-        free(a); free(b); free(c);
-        cudaFree(d_a); cudaFree(d_b); cudaFree(d_c);
+    free(a); free(b); free(c);
+    cudaFree(d_a); cudaFree(d_b); cudaFree(d_c);
 
 
-        return 0;
+    return 0;
 }
