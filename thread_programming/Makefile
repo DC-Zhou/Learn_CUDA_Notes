@@ -31,7 +31,7 @@ reduction_global.o: reduction_global.cpp
 	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<
 
 reduction_global: reduction_global.o reduction_global_kernel.o
-	$(EXEC) $(NVCC) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ $+ $(LIBRARIES)
+	$(EXEC) $(NVCC) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@.out $+ $(LIBRARIES)
 
 reduction_shared_kernel.o: reduction_shared_kernel.cu
 	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<
@@ -40,7 +40,7 @@ reduction_shared.o: reduction_shared.cpp
 	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<
 
 reduction_shared: reduction_shared.o reduction_shared_kernel.o
-	$(EXEC) $(NVCC) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ $+ $(LIBRARIES)
+	$(EXEC) $(NVCC) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@.out $+ $(LIBRARIES)
 
 clean:
 	rm -f *.out *.sqlite *.nsys-rep *.o
